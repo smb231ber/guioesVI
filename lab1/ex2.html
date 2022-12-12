@@ -19,13 +19,12 @@
 
             var geometry = new THREE.BufferGeometry();
 
+ 
             const vertices = new Float32Array( [
-            (0.0,  0.0,  0.0) 
-            (0.0,  0.0,  0.0) 
-            (-0.2, 0.15, 0.0) 
-            (0.15,-0.95, 0.0) 
+            -1.0, -1.0,  0.0,
+            1.0, -1.0,  0.0,
+            1.0,  1.0,  0.0,
             ] );
-
             geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
             var colors = new Uint8Array( [
                 255,  0,  0,  
