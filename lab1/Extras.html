@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Information Visualization - Three.js - Lesson 01</title>
+</head>
+
+<body>
+
+    <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+    <script>
+        // Create scene and camera
+		let scene = new THREE.Scene();
+		let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        // Create Renderer
+		let renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+
+        // Resize window in case of redimension
+		window.addEventListener('resize', function () {
+			renderer.setSize(window.innerWidth, window.innerHeight)
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+		});
+
+		// Initial Cube
+		let geometry = new THREE.BoxGeometry(1, 1, 1);
+		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		const cube = new THREE.Mesh(geometry, material);
+		cube.position.set(-3, 2.5, 0);
+		scene.add(cube);
+
+		// Wireframe Cube
+		material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+		const cube2 = new THREE.Mesh(geometry, material);
+		cube2.position.set(3, 2.5, 0);
+		scene.add(cube2);
+
+		// Cone
+		geometry = new THREE.ConeGeometry(1, 1, 50);
+		material = new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe: true });
+		const cone = new THREE.Mesh(geometry, material);
+		cone.position.set(3, 0, 0);
+		scene.add(cone);
+
+		// Cylinder
+		geometry = new THREE.CylinderGeometry( 1, 1, 1, 50 );
+		material = new THREE.MeshBasicMaterial( {color: 0x00ffff, wireframe: true } );
+		const cylinder = new THREE.Mesh( geometry, material );
+		cylinder.position.set(-3, 0, 0);
+		scene.add( cylinder );
+
+		// Ellipse
+		let curve = new THREE.EllipseCurve(
+			0, 0,            // ax, aY
+			0.5, 1,           // xRadius, yRadius
+			0, 2 * Math.PI,  // aStartAngle, aEndAngle
+			false,            // aClockwise
+			45                 // aRotation
+		);
+		let points = curve.getPoints( 50 );
+		geometry = new THREE.BufferGeometry().setFromPoints( points );
+		material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+		const ellipse = new THREE.Line( geometry, material );
+		ellipse.position.set(0, -2.5, 0);
+		scene.add( ellipse );
+
+		function render() {
+			requestAnimationFrame(render);
+
+			// Cubes rotation
+			cube.rotation.x += 0.01;
+			cube.rotation.y += 0.01;
+			cube2.rotation.x += 0.01;
+			cube2.rotation.y += 0.01;
+
+			// Cone rotation
+			cone.rotation.x += 0.01;
+			cone.rotation.y += 0.01;
+
+			// Cylinder rotation
+			cylinder.rotation.x += 0.01;
+			cylinder.rotation.y += 0.01;
+
+			// Ellipse color and rotation
+			ellipse.rotation.x += 0.01;
+
+			renderer.render(scene, camera);
+		};
+
+		render();
+	</script>
+</body>
+
+</html>
