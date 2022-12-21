@@ -6,9 +6,9 @@
 		<style>
 			body { margin: 0; }
 		</style>
+        <script src="https://threejs.org/build/three.js"></script>
 	</head>
 	<body>
-        <script src="https://threejs.org/build/three.js"></script>
 		<script>
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -19,41 +19,26 @@
 
             var geometry = new THREE.BufferGeometry();
 
- 
             const vertices = new Float32Array( [
-            -1.0, -1.0,  0.0,
-            1.0, -1.0,  0.0,
-            1.0,  1.0,  0.0,
+                -1.0, -1.0,  0.0,
+	            1.0, -1.0,  0.0,
+	            1.0,  1.0,  0.0,
             ] );
+
             geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-            var colors = new Uint8Array( [
-                255,  0,  0,  
-                0,  255,  0,  
-                0,  0,  255,  
-            ] );
-
-           
-
-            geometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3, true) );
-            const geometryMaterial = new THREE.MeshBasicMaterial( {vertexColors: true} );
-
-            //const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } ); 
+            
+            const geometryMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
             const triangle = new THREE.Mesh( geometry, geometryMaterial ); 
             scene.add( triangle ); 
-            camera.position.z = 5;
+            camera.position.z = 2;
 
             function render() {
                 requestAnimationFrame(render);
-                triangle.rotation.x += 0.01;
-                triangle.rotation.y += 0.01;
                 renderer.render(scene, camera);
+                renderer.setClearColor( 0xff0000, 1 );
             }
             render();
 
-
-           
-                    
-        </script>
 		</script>
 	</body>
 </html>
