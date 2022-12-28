@@ -8,57 +8,55 @@
 		</style>
 	</head>
 	<body>
+        
         <script src="https://threejs.org/build/three.js"></script>
+        <script src="js/OrbitControls.js"></script>
 		<script>
-            // Create scene and camera
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+            let scene = new THREE.Scene();
+            let viewSize = 10;
+            let aspectRatio = window.innerWidth / window.innerHeight;
+            let camera = new THREE.OrthographicCamera(
+                -aspectRatio * viewSize / 2,
+                aspectRatio * viewSize / 2,
+                viewSize / 2,
+                -viewSize / 2,
+                0.1, 1000);
+    
+            let renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x999999, 1.0);            // comment to get default background black
+            document.body.appendChild(renderer.domElement);
+    
+            window.addEventListener('resize', function () {
+                renderer.setSize(window.innerWidth, window.innerHeight)
+                let newAspect = window.innerWidth / window.innerHeight;
+                camera.aspect = newAspect;
+                camera.left = viewSize * newAspect / -2;
+                camera.right = viewSize * newAspect / 2;
+                camera.updateProjectionMatrix();
+            });
+    
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    
             camera.position.z = 5;
-            // const camera = new THREE.OrthographicCamera( 
-            //     window.innerWidth / - 2, 
-            //     window.innerWidth / 2, 
-            //     window.innerHeight / 2, 
-            //     window.innerHeight / - 2, 
-            //     1, 
-            //     1000 
-            // );
-            // scene.add( camera );
-
-            // const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            // camera.position.z = 5;
-            // controls.update();
-
-            // Create Renderer
-            const renderer = new THREE.WebGLRenderer();
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            document.body.appendChild( renderer.domElement );
-
-            // Resize window in case of redimension
-            function resize(eventParam) {
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-            window.addEventListener('resize', resize, false);
-
-            // Wireframe Cube
-            const geometry = new THREE.BoxGeometry(1,1,1);
-            const material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } ); 
-            const cube = new THREE.Mesh( geometry, material ); 
-            scene.add( cube );
-
-            // Wireframe Cube rotation
-            cube.rotation.x += 0.5;
-            cube.rotation.y += 0.5;
-
-            function render() {
+            controls.update();
+    
+            // initial cube
+            let geometry = new THREE.BoxGeometry(1, 1, 1);
+            let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+    
+            let render = function () {
                 requestAnimationFrame(render);
-                // controls.update();
+    
+                controls.update();
+    
                 renderer.render(scene, camera);
-            }
+            };
+    
             render();
-                    
         </script>
-		</script>
+
 	</body>
 </html>
