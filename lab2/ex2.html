@@ -33,12 +33,6 @@
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.update();
 
-            window.addEventListener('resize', function () {
-                renderer.setSize(window.innerWidth, window.innerHeight)
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-            });
-
             // Directional light
             var lightColor = 0x006063
             const directionalLight = new THREE.DirectionalLight(lightColor, 1.0);
