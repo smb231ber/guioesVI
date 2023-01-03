@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Scale and Rotation Exercise</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
+    <script>
+      // Create scene and camera
+        const scene = new THREE.Scene();
+        const viewSize = 5;
+        var aspectRatio = window.innerWidth / window.innerHeight;
+        const camera = new THREE.OrthographicCamera(
+            (-aspectRatio * viewSize) / 2, // left plane
+            (aspectRatio * viewSize) / 2, // right plane
+            viewSize / 2, // top plane
+            -viewSize / 2 // bottom plane
+        );
+        scene.add(camera);
+        camera.position.z = 5;
+
+        // Create Renderer
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create OrbitControls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.update();
+        const createCar = () => {
+        
+        // Building the car object
+        const car = new THREE.Object3D();
+        const cubeGeometry = new THREE.BoxGeometry();
+        const cubeMaterial = new THREE.MeshBasicMaterial({
+            color: 0xadd8e6,
+            opacity: 0.6,
+            transparent: true,
+        });
+
+        
+        const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        cube.scale.set(2, 1, 4);
+
+        const sphereGeometry = new THREE.SphereGeometry(0.5);
+        const sphereMaterial = new THREE.MeshPhongMaterial({
+            shading: THREE.SmoothShading,
+        });
+        sphereMaterial.color = new THREE.Color(0x953a29);
+        sphereMaterial.specular = new THREE.Color(0.628281, 0.555802, 0.366065);
+        sphereMaterial.shininess = 0.4 * 256;
+        
+        const sphere1 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        const sphere2 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        const sphere3 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        const sphere4 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+        sphere1.position.set(-1, -0.5, -2);
+        sphere2.position.set(1, -0.5, -2);
+        sphere3.position.set(-1, -0.5, 2);
+        sphere4.position.set(1, -0.5, 2);
+
+        car.add(sphere1, sphere2, cube, sphere3, sphere4);
+
+        return car;
+        };
+
+        const car = createCar();
+        scene.add(car);
+
+        // Get the transformation matrices
+        console.log("Car Matrix:", car.matrix);
+        console.log("Sphere number 1 Matrix:", sphere1.matrix); _// I don't know why this is not working_
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(ambientLight);
+
+        // Resize window and camera in case of redimension
+        function resize(eventParam) {
+            aspectRatio = window.innerWidth / window.innerHeight;
+            camera.aspect = aspectRatio;
+            camera.left = (-viewSize * aspectRatio) / 2;
+            camera.right = (viewSize * aspectRatio) / 2;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            controls.update();
+        }
+
+        window.addEventListener("resize", resize, false);
+        function render() {
+            requestAnimationFrame(render);
+
+        controls.update();
+        renderer.render(scene, camera);
+        }
+
+    render();
+
+</script>
+</body>
+</html>
