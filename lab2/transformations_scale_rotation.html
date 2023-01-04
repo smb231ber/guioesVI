@@ -69,6 +69,8 @@
         sphere4.position.set(1, -0.5, 2);
 
         car.add(sphere1, sphere2, cube, sphere3, sphere4);
+        console.log("Car Matrix", car.matrix);
+        console.log("Sphere 1", sphere1.matrix);
 
         return car;
         };
@@ -77,8 +79,6 @@
         scene.add(car);
 
         // Get the transformation matrices
-        console.log("Car Matrix", car.matrix);
-        //console.log("sphere matrix", sphere1.matrix); not working
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
         scene.add(directionalLight);
@@ -98,6 +98,7 @@
         }
 
         window.addEventListener("resize", resize, false);
+        
         function render() {
             requestAnimationFrame(render);
 
