@@ -67,9 +67,7 @@
             // Directional light - Green
             const greenDirectionalLight = new THREE.DirectionalLight(0x00ff00, 1.0);
             greenDirectionalLight.position.set(0, 0, -5);
-            greenDirectionalLight.target.position.set(-2.5, 0, -5);
             scene.add(greenDirectionalLight);
-            scene.add(greenDirectionalLight.target);
     
             // Cube
             const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -102,6 +100,26 @@
             const sphere2 = new THREE.Mesh(sphereGeometry, material);
             sphere2.position.set(-2.5, 0, 0);
             scene.add(sphere2);
+            
+            // Glass spheres
+            const glassGeometry = new THREE.SphereGeometry(1.5, 10, 10);
+            material = new THREE.MeshPhongMaterial({
+                color: 0x222222,
+                specular: 0xFFFFFF,
+                shininess: 100,
+                opacity: 0.4,
+                transparent: true
+		    });
+
+            // Left transparent sphere
+            const glassSphere = new THREE.Mesh(glassGeometry, material);
+            glassSphere.position.set(-2.5, 0, 0);
+            scene.add(glassSphere);
+
+            // Right transparent sphere
+            const glassSphere2 = new THREE.Mesh(glassGeometry, material);
+            glassSphere2.position.set(2.5, 0, 0);
+            scene.add(glassSphere2);
     
             let render = function () {
                 requestAnimationFrame(render);
