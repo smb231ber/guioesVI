@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Transformations (Rotations)</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
+    <script>
+      // Create scene and camera
+        const scene = new THREE.Scene();
+        const viewSize = 5;
+        var aspectRatio = window.innerWidth / window.innerHeight;
+        const camera = new THREE.OrthographicCamera(
+            (-aspectRatio * viewSize) / 2, // left plane
+            (aspectRatio * viewSize) / 2, // right plane
+            viewSize / 2, // top plane
+            -viewSize / 2 // bottom plane
+        );
+        scene.add(camera);
+        camera.position.z = 5;
+
+        // Create Renderer
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create OrbitControls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.update();
+
+        const axisCylinderGeometry = new THREE.CylinderGeometry( 0.1, 0.1, 1 );
+        const axiscylinderMaterialX = new THREE.MeshPhongMaterial( { 
+            color: 0x0000ff, 
+            opacity: 1, 
+            transparent: true 
+        } );
+        const axiscylinderMaterialY = new THREE.MeshPhongMaterial( { 
+            color: 0x00ff00, 
+            opacity: 1, 
+            transparent: true 
+        } );
+        const axiscylinderMaterialZ = new THREE.MeshPhongMaterial( { 
+            color: 0xff0000, 
+            opacity: 1, 
+            transparent: true 
+        } );
+
+
+        //Create the Cylinders for the Axis
+        const axisCylinderX = new THREE.Mesh( axisCylinderGeometry, axiscylinderMaterialX );
+        const axisCylinderY = new THREE.Mesh( axisCylinderGeometry, axiscylinderMaterialY );
+        const axisCylinderZ = new THREE.Mesh( axisCylinderGeometry, axiscylinderMaterialZ );
+        
+        axisCylinderX.position.set(0, 0, 1);
+        axisCylinderY.position.set(0, 0.5, 0.5);
+        axisCylinderZ.position.set(0.5, 0, 0.5);
+       
+        axisCylinderX.rotation.x = Math.PI/2;
+        axisCylinderZ.rotation.z = Math.PI/2;
+        
+
+        const axis = new THREE.Object3D();
+        axis.add(axisCylinderX, axisCylinderY, axisCylinderZ);
+        axis.rotation.y = Math.PI/4;
+        scene.add(axis);
+
+    
+        // Building the car object
+        const createCar = () => {
+        
+            const car = new THREE.Object3D();
+            const cubeGeometry = new THREE.BoxGeometry();
+            const cubeMaterial = new THREE.MeshBasicMaterial({
+                color: 0xadd8e6,
+                opacity: 0.6,
+                transparent: true,
+            });
+
+            
+            const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.scale.set(2, 1, 4);
+
+            const cylinderGeometry = new THREE.CylinderGeometry( 0.5, 0.5, 0.2 );
+            const cylinderMaterial = new THREE.MeshPhongMaterial( { 
+                color: 0x64271C, 
+                opacity: 1, 
+                transparent: true 
+            } );
+
+            const cylinder1 = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+            cylinder1.position.set(1, -0.5, 2);
+            cylinder1.rotation.x = Math.PI/2;
+            cylinder1.rotation.z = Math.PI/2;
+
+            const cylinder2 = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+            cylinder2.position.set(1, -0.5, -2);
+            cylinder2.rotation.x = Math.PI/2;
+            cylinder2.rotation.z = Math.PI/2;
+
+            const cylinder3 = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+            cylinder3.position.set(-1, -0.5, 2);
+            cylinder3.rotation.x = Math.PI/2;
+            cylinder3.rotation.z = Math.PI/2;
+
+            const cylinder4 = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+            cylinder4.position.set(-1, -0.5, -2);
+            cylinder4.rotation.x = Math.PI/2;
+            cylinder4.rotation.z = Math.PI/2;
+
+
+            car.add(cube, cylinder1, cylinder2, cylinder3, cylinder4);
+
+            return car;
+        };
+
+        const car = createCar();
+        scene.add(car);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(ambientLight);
+
+        // Resize window and camera in case of redimension
+        function resize(eventParam) {
+            aspectRatio = window.innerWidth / window.innerHeight;
+            camera.aspect = aspectRatio;
+            camera.left = (-viewSize * aspectRatio) / 2;
+            camera.right = (viewSize * aspectRatio) / 2;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            controls.update();
+        }
+
+        window.addEventListener("resize", resize, false);
+        function render() {
+            requestAnimationFrame(render);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+    render();
+
+</script>
+</body>
+</html>
