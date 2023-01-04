@@ -67,9 +67,7 @@
             // Directional light - Green
             const greenDirectionalLight = new THREE.DirectionalLight(0x00ff00, 1.0);
             greenDirectionalLight.position.set(0, 0, -5);
-            greenDirectionalLight.target.position.set(-2.5, 0, -5);
             scene.add(greenDirectionalLight);
-            scene.add(greenDirectionalLight.target);
     
             // Cube
             const geometry = new THREE.BoxGeometry(1, 1, 1);
