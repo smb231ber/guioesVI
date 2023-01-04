@@ -67,9 +67,7 @@
             // Directional light - Green
             const greenDirectionalLight = new THREE.DirectionalLight(0x00ff00, 1.0);
             greenDirectionalLight.position.set(0, 0, -5);
-            greenDirectionalLight.target.position.set(-2.5, 0, 0);
             scene.add(greenDirectionalLight);
-            scene.add(greenDirectionalLight.target);
     
             // Cube
             const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -81,25 +79,17 @@
             const cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
     
-            // // Left sphere
-            const sphereGeometry = new THREE.SphereGeometry(1, 10, 10);
-            // material = new THREE.MeshLambertMaterial({
-            //     color: '#006063',
-            // });
-            // const sphere = new THREE.Mesh(sphereGeometry, material);
-            // sphere.position.x = -2.5;
-            // scene.add(sphere);
-    
             // Right sphere
+            const sphereGeometry = new THREE.SphereGeometry(1, 10, 10);
             material = new THREE.MeshPhongMaterial({
                 color: '#006063',
                 specular: '#a9fcff',
                 shininess: 100,
                 flatShading: true
             });
-            const sphere2 = new THREE.Mesh(sphereGeometry, material);
-            sphere2.position.x = 2.5;
-            scene.add(sphere2);
+            const sphere1 = new THREE.Mesh(sphereGeometry, material);
+            sphere1.position.x = 2.5;
+            scene.add(sphere1);
     
             // Left sphere
             material = new THREE.MeshPhongMaterial({
@@ -107,20 +97,28 @@
                 specular: '#a9fcff',
                 shininess: 100,
             });
-            const sphere3 = new THREE.Mesh(sphereGeometry, material);
-            sphere3.position.set(-2.5, 0, 0);
-            scene.add(sphere3);
+            const sphere2 = new THREE.Mesh(sphereGeometry, material);
+            sphere2.position.set(-2.5, 0, 0);
+            scene.add(sphere2);
     
-            // // Left down sphere
-            // const emerald = new THREE.MeshPhongMaterial({
-            //     shading: THREE.SmoothShading
-            // });
-            // emerald.color = new THREE.Color(0.07568, 0.61424, 0.07568);
-            // emerald.specular = new THREE.Color(0.633, 0.7278, 0.633);
-            // emerald.shininess = 0.6 * 256;
-            // const sphere4 = new THREE.Mesh(sphereGeometry, emerald);
-            // sphere4.position.set(-2.5, -2.5, 0);
-            // scene.add(sphere4);
+            // Upper Middle
+            const emerald = new THREE.MeshPhongMaterial({
+                shading: THREE.SmoothShading
+            });
+            emerald.color = new THREE.Color(0.07568, 0.61424, 0.07568);
+            emerald.specular = new THREE.Color(0.633, 0.7278, 0.633);
+            emerald.shininess = 0.6 * 256;
+            const sphere3 = new THREE.Mesh(sphereGeometry, emerald);
+            sphere3.position.set(0, 2.5, 0);
+            scene.add(sphere3);
+
+            // Bottom Middle
+            material = new THREE.MeshLambertMaterial({
+                color: '#006063',
+            });
+            const sphere4 = new THREE.Mesh(sphereGeometry, material);
+            sphere4.position.set(0, -2.5, 0);
+            scene.add(sphere4);
     
             let render = function () {
                 requestAnimationFrame(render);
